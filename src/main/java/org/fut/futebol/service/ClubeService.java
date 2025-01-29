@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 
@@ -33,8 +32,8 @@ public class ClubeService {
 
     public Clube editarClube(Long id, Clube novoClube) {
         Clube clubeExistente = buscarPorId(id);
-        clubeExistente.setNome(novoClube.getNome());
-        clubeExistente.setNome(novoClube.getNome());
+        clubeExistente.setNomeClube(novoClube.getNomeClube());
+        clubeExistente.setNomeClube(novoClube.getNomeClube());
         clubeExistente.setAtivo(novoClube.isAtivo());
         return clubeRepository.save(clubeExistente);
     }
@@ -47,9 +46,9 @@ public class ClubeService {
     }
 
     private void validarClube(Clube clube) {
-        if (clube.getNome() == null || clube.getNome().isEmpty()) {
+        if (clube.getNomeClube() == null || clube.getNomeClube().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Clube é obrigatorio");
-        } else if (clube.getDataCriacao() == null) {
+        } else if (clube.getDataCriacaoClube() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Data de criação obrigatorio");
         }
     }
@@ -58,7 +57,7 @@ public class ClubeService {
         if (nome != null || estado != null|| ativo != null) {
             return clubeRepository.findAll(pageable);
         }
-        return clubeRepository.findByNomeContainingIgnoreCaseOrSiglaEstadoContainingIgnoreCaseOrAtivo(nome, estado, ativo != null && ativo, pageable);
+        return clubeRepository.findByNomeClubeContainingIgnoreCaseOrSiglaEstadoClubeContainingIgnoreCaseOrAtivo(nome, estado, ativo != null && ativo, pageable);
 
     }
 }

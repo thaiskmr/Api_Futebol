@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+
 public interface PartidaRepository extends JpaRepository<Partida, Long> {
 
     List<Partida> findByClubeMandanteIdOrClubeVisitanteId(Long clubeMandanteId, Long visitanteId);
 
-    List<Partida> findByEstadioIdAndDataHoraBetween(Long estadioId, LocalDateTime start, LocalDateTime end);
+    List<Partida> findByIdEstadioAndDataHoraBetween(Long idEstadio, LocalDateTime start, LocalDateTime end);
 
     List<Partida> findByDataHoraBetween(LocalDateTime start, LocalDateTime end);
 
@@ -24,11 +25,10 @@ public interface PartidaRepository extends JpaRepository<Partida, Long> {
 
     Page<Partida> findByClubeMandanteIdOrClubeVisitanteId (Long clubeMandanteId, Long clubeVisitanteId, Pageable pageable);
 
-    Page<Partida> findByEstadioIdEstadio(Long idEstadio, Pageable pageable);
+    Page<Partida> findByIdEstadio(Long idEstadio, Pageable pageable);
 
-    Optional<Partida> findByPartidaId(Long partidaId);
+    Optional<Partida> findByIdPartida(Long idPartida);
 
-//    List<Partida> findByEstadioIdAndData(Long estadioId, LocalDateTime start, LocalDateTime end);
 
 
 

@@ -57,26 +57,26 @@ public class PartidaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partida não localizada"));
     }
 
-    public Page<Partida> listarPartidas(Long clubeId, Long estadioId, Pageable pageable) {
-        if (clubeId != null) {
-            return partidaRepository.findByClubeMandanteIdOrClubeVisitanteId(clubeId, clubeId, pageable);
-        } else if (estadioId != null) {
-            return partidaRepository.findByClubeMandanteIdOrClubeVisitanteId(clubeId, clubeId, pageable);
+    public Page<Partida> listarPartidas(Long idClube, Long idEstadio, Pageable pageable) {
+        if (idClube != null) {
+            return partidaRepository.findByClubeMandanteIdOrClubeVisitanteId(idClube, idClube, pageable);
+        } else if (idEstadio != null) {
+            return partidaRepository.findByIdEstadio( idClube, pageable);
         }
         return partidaRepository.findAll(pageable);
     }
 
     /// rev
     private void validarPartida(Partida partida) {
-        Clube clubeMandante = clubeService.buscarPorId(partida.getClubeMandante().getClubeId());
-        Clube clubeVisitante = clubeService.buscarPorId(partida.getClubeVisitante().getClubeId());
-        Estadio estadio = estadioService.buscarEstadioId(partida.getEstadio().getEstadioId());
+        Clube clubeMandante = clubeService.buscarPorId(partida.getClubeMandante().getIdClube());
+        Clube clubeVisitante = clubeService.buscarPorId(partida.getClubeVisitante().getIdClube());
+        Estadio estadio = estadioService.buscaridEstadio(partida.getEstadio().getIdEstadio());
 
         if (clubeMandante == null || clubeVisitante == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Um dos clubes é invalido!");
         }
 
-        if (clubeMandante.getClubeId().equals(clubeVisitante.getClubeId())) {
+        if (clubeMandante.getIdClube().equals(clubeVisitante.getIdClube())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Os clubes não podem ser iguais!");
         }
 
@@ -97,21 +97,21 @@ public class PartidaService {
         }
 
 
-        if (clubeMandante.getDataCriacao().isAfter(partida.getDataHora().toLocalDate()) || clubeVisitante.getDataCriacao().isAfter(partida.getDataHora().toLocalDate())) {
+        if (clubeMandante.getDataCriacaoClube().isAfter(partida.getDataHora().toLocalDate()) || clubeVisitante.getDataCriacaoClube().isAfter(partida.getDataHora().toLocalDate())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Data da partida não pode ser anterior a data de criação dos clubes");
         }
 /// rev
-        Partida partidaExistente = partidaRepository.findByPartidaId(partida.getPartidaId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partida inexistente"));
+        Partida partidaExistente = partidaRepository.findByIdPartida(partida.getIdPartida()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partida inexistente"));
         Partida partidaAtualizada = partida;
 
         LocalDateTime startOfDay = partidaAtualizada.getDataHora().toLocalDate().atStartOfDay();
         LocalDateTime endOfDay = startOfDay.plusDays(1).minusSeconds(1);
-        partidaRepository.findByEstadioIdAndDataHoraBetween(estadio.getEstadioId(), startOfDay, endOfDay);
+        partidaRepository.findByIdEstadioAndDataHoraBetween(estadio.getIdEstadio(), startOfDay, endOfDay);
 
 
         if (!partidaExistente.getEstadio().equals(partidaAtualizada.getEstadio()) || !partidaExistente.getDataHora().equals(partidaAtualizada.getDataHora())) {
 
-            List<Partida> partidaEstadio = partidaRepository.findByEstadioIdAndDataHoraBetween(partidaAtualizada.getEstadio().getEstadioId(), startOfDay, endOfDay);
+            List<Partida> partidaEstadio = partidaRepository.findByIdEstadioAndDataHoraBetween(partidaAtualizada.getEstadio().getIdEstadio(), startOfDay, endOfDay);
             if (!partidaEstadio.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Estádio ocupado");
             }
@@ -125,7 +125,7 @@ public class PartidaService {
         LocalDateTime startRange = dataHora.minusHours(48);
         LocalDateTime endRange = dataHora.plusHours(48);
 
-        List<Partida> partidasClube = partidaRepository.findByClubeMandanteIdOrClubeVisitanteIdAndDataHoraBetween(clube.getClubeId(), clube.getClubeId(), startRange, endRange);
+        List<Partida> partidasClube = partidaRepository.findByClubeMandanteIdOrClubeVisitanteIdAndDataHoraBetween(clube.getIdClube(), clube.getIdClube(), startRange, endRange);
 
         if (!partidasClube.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Clube já possui partida no horário informado");

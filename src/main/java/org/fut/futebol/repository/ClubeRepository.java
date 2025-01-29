@@ -14,15 +14,14 @@ import java.util.Optional;
 
 @Repository
 public interface ClubeRepository extends JpaRepository<Clube, Long> {
+    List<Clube> findBySiglaEstadoClube(String siglaEstadoClube);
 
-    Page<Clube> findByNomeContainingIgnoreCaseOrSiglaEstadoContainingIgnoreCaseOrAtivo(
+    Page<Clube> findByNomeClubeContainingIgnoreCaseOrSiglaEstadoClubeContainingIgnoreCaseOrAtivo(
             String nome, String estado, boolean ativo, Pageable pageable);
 
-    Optional<Clube> findByNomeAndSiglaEstado(String nome, String siglaEstado);
+    Optional<Clube> findByNomeClubeAndSiglaEstadoClube(String nomeClube, String siglaEstadoClube);
 
-    boolean existsByNomeAndSiglaEstado(String nome, String siglaEstado);
-
-    List<Clube> findBySiglaEstado(String siglaEstado);
+    boolean existsByNomeClubeAndSiglaEstadoClube(String nomeClube, String siglaEstadoClube);
 
     List<Clube> findByAtivoTrue();
 }

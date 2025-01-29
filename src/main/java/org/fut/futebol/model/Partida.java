@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Partida {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partidaId;
+    private Long idPartida;
 
     @ManyToOne
     @JoinColumn(name = "clube_mandante_id", nullable = false)
@@ -35,12 +35,12 @@ public class Partida {
 //    private String resultado;
 
 
-    public Long getPartidaId() {
-        return partidaId;
+    public Long getIdPartida() {
+        return idPartida;
     }
 
-    public void setPartidaId(Long partidaId) {
-        this.partidaId = partidaId;
+    public void setIdPartida(Long idPartida) {
+        this.idPartida = idPartida;
     }
 
     public Clube getClubeMandante() {

@@ -9,12 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.domain.Page;
 
 
 @Service
@@ -26,7 +22,7 @@ public class EstadioService {
         return estadioRepository.findAll();
     }
 
-    public Estadio buscarEstadioId(Long idEstadio) {
+    public Estadio buscaridEstadio(Long idEstadio) {
         return estadioRepository.findById(idEstadio).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estádio inexistente"));
     }
 
@@ -47,14 +43,14 @@ public class EstadioService {
     }
 
     public Estadio atualizarEstadio(Long idEstadio, Estadio estadioAtualizado) {
-        Estadio estadioExistente = buscarEstadioId(idEstadio);
+        Estadio estadioExistente = buscaridEstadio(idEstadio);
         estadioExistente.setNomeEstadio(estadioAtualizado.getNomeEstadio());
-        estadioExistente.setIdEstadio(estadioAtualizado.getEstadioId());
+        estadioExistente.setIdEstadio(estadioAtualizado.getIdEstadio());
         return estadioRepository.save(estadioExistente);
     }
 
     public Estadio removerEstadio(Long idEstadio) {
-        Estadio estadio = buscarEstadioId(idEstadio);
+        Estadio estadio = buscaridEstadio(idEstadio);
         estadioRepository.delete(estadio);
         return estadio;
     }

@@ -43,14 +43,14 @@ public class ClubeController {
 
         //Clube repetido
 
-        Optional<Clube> clubeExistente = clubeRepository.findByNomeAndSiglaEstado(clube.getNome(), clube.getSiglaEstado());
+        Optional<Clube> clubeExistente = clubeRepository.findByNomeClubeAndSiglaEstadoClube(clube.getNomeClube(), clube.getSiglaEstadoClube());
         if (clubeExistente.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Clube já existe no estado " + clube.getSiglaEstado());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Clube já existe no estado " + clube.getSiglaEstadoClube());
         }
 
         //Data invalida - Criacao maior que data atual
 
-        if (clube.getDataCriacao().isAfter(LocalDate.now())) {
+        if (clube.getDataCriacaoClube().isAfter(LocalDate.now())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data de criação não pode ser maior que a data de atual");
         }
 
@@ -74,15 +74,15 @@ public class ClubeController {
         }
 
 
-        Optional<Clube> clubeComNomeExistente = clubeRepository.findByNomeAndSiglaEstado(clube.getNome(), clube.getSiglaEstado());
-        if (clubeComNomeExistente.isPresent() && !clubeComNomeExistente.get().getClubeId().equals(id)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Clube com mesmo nome no estado " + clube.getSiglaEstado());
+        Optional<Clube> clubeComNomeExistente = clubeRepository.findByNomeClubeAndSiglaEstadoClube(clube.getNomeClube(), clube.getSiglaEstadoClube());
+        if (clubeComNomeExistente.isPresent() && !clubeComNomeExistente.get().getIdClube().equals(id)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Clube com mesmo nome no estado " + clube.getSiglaEstadoClube());
         }
 
         Clube updateClube = clubeExistente.get();
-        updateClube.setNome(clube.getNome());
-        updateClube.setSiglaEstado(clube.getSiglaEstado());
-        updateClube.setDataCriacao(clube.getDataCriacao());
+        updateClube.setNomeClube(clube.getNomeClube());
+        updateClube.setSiglaEstadoClube(clube.getSiglaEstadoClube());
+        updateClube.setDataCriacaoClube(clube.getDataCriacaoClube());
         updateClube.setAtivo(clube.isAtivo());
         clubeRepository.save(updateClube);
 
@@ -104,7 +104,7 @@ public class ClubeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarClubeId(@PathVariable Long id) {
+    public ResponseEntity<?> buscaridClube(@PathVariable Long id) {
         Optional<Clube> clube = clubeRepository.findById(id);
         return clube.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

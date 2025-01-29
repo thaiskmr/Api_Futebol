@@ -17,7 +17,7 @@ public class Estadio {
     @OneToMany(mappedBy = "estadio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Partida> partida;
 
-    public Long getEstadioId() {
+    public Long getIdEstadio() {
         return idEstadio;
     }
 

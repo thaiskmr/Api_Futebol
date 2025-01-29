@@ -11,16 +11,16 @@ import java.time.LocalDate;
 public class Clube {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clubeId;
+    private Long idClube;
 
     @NotNull
-    private String nome;
+    private String nomeClube;
 
     @NotNull
-    private String siglaEstado;
+    private String siglaEstadoClube;
 
     @NotNull
-    private LocalDate dataCriacao;
+    private LocalDate dataCriacaoClube;
 
     @NotNull
     private boolean ativo;
@@ -35,36 +35,36 @@ public class Clube {
         this.resultado = resultado;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeClube() {
+        return nomeClube;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeClube(String nomeClube) {
+        this.nomeClube = nomeClube;
     }
 
-    public Long getClubeId() {
-        return clubeId;
+    public Long getIdClube() {
+        return idClube;
     }
 
-    public void setClubeId(Long clubeId) {
-        this.clubeId = clubeId;
+    public void setIdClube(Long idClube) {
+        this.idClube = idClube;
     }
 
-    public LocalDate getDataCriacao() {
-        return dataCriacao;
+    public LocalDate getDataCriacaoClube() {
+        return dataCriacaoClube;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setDataCriacaoClube(LocalDate dataCriacaoClube) {
+        this.dataCriacaoClube = dataCriacaoClube;
     }
 
-    public String getSiglaEstado() {
-        return siglaEstado;
+    public String getSiglaEstadoClube() {
+        return siglaEstadoClube;
     }
 
-    public void setSiglaEstado(String siglaEstado) {
-        this.siglaEstado = siglaEstado;
+    public void setSiglaEstadoClube(String siglaEstadoClube) {
+        this.siglaEstadoClube = siglaEstadoClube;
     }
 
     public boolean isAtivo() {

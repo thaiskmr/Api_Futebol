@@ -3,6 +3,7 @@ package org.fut.futebol.controller;
 import org.fut.futebol.model.Partida;
 import org.fut.futebol.repository.PartidaRepository;
 import org.fut.futebol.service.PartidaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,13 +16,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping
+@RequestMapping("/partidas")
 
 public class PartidasController {
 
     private final PartidaRepository partidaRepository;
     private final PartidaService partidaService;
 
+    @Autowired
     public PartidasController(PartidaRepository partidaRepository, PartidaService partidaService) {
         this.partidaRepository = partidaRepository;
         this.partidaService = partidaService;
@@ -47,17 +49,17 @@ public class PartidasController {
     }
 
     @GetMapping("/buscarpartida/{id}")
-    public ResponseEntity<Partida> buscarPartidaId(@PathVariable Long id) {
+    public ResponseEntity<Partida> buscaridPartida(@PathVariable Long id) {
         Partida partida = partidaService.buscarPartidaPorId(id);
         return ResponseEntity.ok(partida);
     }
 
     @GetMapping
     public ResponseEntity<Page<Partida>> listarPartidas(
-            @RequestParam(required = false) Long clubeId,
-            @RequestParam(required = false) Long estadioId,
+            @RequestParam(required = false) Long idClube,
+            @RequestParam(required = false) Long idEstadio,
             @PageableDefault(sort = "dataHora", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(partidaService.listarPartidas(clubeId, estadioId, pageable));
+        return ResponseEntity.ok(partidaService.listarPartidas(idClube, idEstadio, pageable));
 
     }
 }
