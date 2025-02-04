@@ -2,6 +2,7 @@ package org.fut.futebol.service;
 
 import org.fut.futebol.model.Clube;
 import org.fut.futebol.repository.ClubeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,13 +12,14 @@ import org.springframework.stereotype.Service;
 @Service
 
 public class ClubeService {
+    @Autowired
     private ClubeRepository clubeRepository;
 
-    public ClubeService(ClubeRepository clubeRepository) {
-        this.clubeRepository = clubeRepository;
-    }
+//    public ClubeService() {
+//        this.clubeRepository = clubeRepository;
+//    }
 
-    public Clube buscarPorId(Long id) {
+    public Clube buscarClubePorId(Long id) {
         return clubeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clube não encontrado"));
     }
 
@@ -31,7 +33,7 @@ public class ClubeService {
     }
 
     public Clube editarClube(Long id, Clube novoClube) {
-        Clube clubeExistente = buscarPorId(id);
+        Clube clubeExistente = buscarClubePorId(id);
         clubeExistente.setNomeClube(novoClube.getNomeClube());
         clubeExistente.setNomeClube(novoClube.getNomeClube());
         clubeExistente.setAtivo(novoClube.isAtivo());

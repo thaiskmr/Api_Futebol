@@ -32,35 +32,25 @@ public class ClubeController {
 
     }
 
-
-    //Cadastro do clube
-
     @PostMapping
     public ResponseEntity<?> cadastrarClube(@Valid @RequestBody Clube clube, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
 
-        //Clube repetido
-
         Optional<Clube> clubeExistente = clubeRepository.findByNomeClubeAndSiglaEstadoClube(clube.getNomeClube(), clube.getSiglaEstadoClube());
         if (clubeExistente.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Clube já existe no estado " + clube.getSiglaEstadoClube());
         }
 
-        //Data invalida - Criacao maior que data atual
-
         if (clube.getDataCriacaoClube().isAfter(LocalDate.now())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data de criação não pode ser maior que a data de atual");
         }
-
-        //Save
 
         Clube savedClube = clubeRepository.save(clube);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedClube);
     }
 
-    //Edit
 
     @PutMapping("/estadio/{id}")
     public ResponseEntity<?> editarClube(@PathVariable Long id, @Valid @RequestBody Clube clube, BindingResult result) {

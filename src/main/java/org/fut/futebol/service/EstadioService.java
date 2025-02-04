@@ -42,12 +42,12 @@ public class EstadioService {
         return estadioRepository.save(estadioExistente);
     }
 
-    public Estadio atualizarEstadio(Long idEstadio, Estadio estadioAtualizado) {
-        Estadio estadioExistente = buscaridEstadio(idEstadio);
-        estadioExistente.setNomeEstadio(estadioAtualizado.getNomeEstadio());
-        estadioExistente.setIdEstadio(estadioAtualizado.getIdEstadio());
-        return estadioRepository.save(estadioExistente);
-    }
+//    public Estadio atualizarEstadio(Long idEstadio, Estadio estadioAtualizado) {
+//        Estadio estadioExistente = buscaridEstadio(idEstadio);
+//        estadioExistente.setNomeEstadio(estadioAtualizado.getNomeEstadio());
+//        estadioExistente.setIdEstadio(estadioAtualizado.getIdEstadio());
+//        return estadioRepository.save(estadioExistente);
+//    }
 
     public Estadio removerEstadio(Long idEstadio) {
         Estadio estadio = buscaridEstadio(idEstadio);

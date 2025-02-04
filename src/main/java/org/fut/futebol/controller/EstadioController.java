@@ -15,14 +15,14 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/estadios")
+@RequestMapping("/estadios")
 
 public class EstadioController {
 
     @Autowired
     private EstadioService estadioService;
 
-    @GetMapping
+    @GetMapping("/todos")
     public ResponseEntity<List<Estadio>> listaEstadio(){
         List<Estadio> estadios = estadioService.listaEstadio();
         return ResponseEntity.status(HttpStatus.OK).body(estadios);
@@ -41,12 +41,6 @@ public class EstadioController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Estadio> atualizarEstadio(@PathVariable Long id, @RequestBody Estadio estadio){
-        Estadio estadioAtualizado = estadioService.atualizarEstadio(id, estadio);
-        return ResponseEntity.status(HttpStatus.OK).body(estadioAtualizado);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Estadio> removerEstadio(@PathVariable Long id){
         estadioService.removerEstadio(id);
@@ -54,7 +48,7 @@ public class EstadioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Estadio>>listarEstadios(@PageableDefault(sort = "nome", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<Estadio>>listarEstadios(@PageableDefault(sort = "nomeEstadio", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Estadio> estadio = estadioService.listarEstadios(pageable);
         return ResponseEntity.ok(estadio);
     }

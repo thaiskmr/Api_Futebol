@@ -1,5 +1,6 @@
 package org.fut.futebol.repository;
 
+import org.fut.futebol.model.Clube;
 import org.fut.futebol.model.Partida;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,17 +16,20 @@ import java.util.Optional;
 
 public interface PartidaRepository extends JpaRepository<Partida, Long> {
 
-    List<Partida> findByClubeMandanteIdOrClubeVisitanteId(Long clubeMandanteId, Long visitanteId);
+    List<Partida> findByClubeMandanteIdClubeOrClubeVisitanteIdClube(Long clubeMandanteId, Long visitanteId);
 
-    List<Partida> findByIdEstadioAndDataHoraBetween(Long idEstadio, LocalDateTime start, LocalDateTime end);
+    List<Partida> findByEstadioIdEstadioAndDataHoraBetween(Long idEstadio, LocalDateTime start, LocalDateTime end);
 
-    List<Partida> findByDataHoraBetween(LocalDateTime start, LocalDateTime end);
+//    List<Partida> findByDataHoraBetween(LocalDateTime start, LocalDateTime end);
 
-    List<Partida> findByClubeMandanteIdOrClubeVisitanteIdAndDataHoraBetween(Long clubeMandanteId, Long clubeVisitanteId, LocalDateTime start, LocalDateTime end);
+    Page<Partida> findByClubeMandanteIdClubeOrClubeVisitanteIdClube(Long clubeMandanteId, Long clubeVisitanteId, Pageable pageable);
 
-    Page<Partida> findByClubeMandanteIdOrClubeVisitanteId (Long clubeMandanteId, Long clubeVisitanteId, Pageable pageable);
+//    List<Partida> findByClubeMandanteIdClubeOrClubeVisitanteIdClubeAndDataHoraBetween(Long clubeMandanteId, Long clubeVisitanteId, LocalDateTime start, LocalDateTime end);
 
-    Page<Partida> findByIdEstadio(Long idEstadio, Pageable pageable);
+    List<Partida> findByClubeMandanteOrClubeVisitanteAndDataHoraBetween(Clube clubeMandanteId, Clube clubeVisitanteId, LocalDateTime start, LocalDateTime end);
+
+
+    Page<Partida> findByEstadioIdEstadio(Long idEstadio, Pageable pageable);
 
     Optional<Partida> findByIdPartida(Long idPartida);
 

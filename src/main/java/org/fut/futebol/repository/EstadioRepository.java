@@ -8,6 +8,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EstadioRepository extends JpaRepository<Estadio, Long> {
     Optional<Estadio> findByNomeEstadio(String nome);
+
     boolean existsByNomeEstadio(String nome);
+
     boolean existsByNomeEstadioIgnoreCase (String nome);
 }
+
+
+
+
+
+
+
+
